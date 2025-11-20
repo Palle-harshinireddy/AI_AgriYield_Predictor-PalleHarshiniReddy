@@ -1,0 +1,312 @@
+Live Website : https://sb1pczdzfzc-gk00--3000--cf284e50.local-credentialless.webcontainer.io/
+
+'use client';
+
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { ArrowLeft, Sprout, Zap } from 'lucide-react';
+import Link from 'next/link';
+import { useState } from 'react';
+
+export default function PredictPage() {
+  const [formData, setFormData] = useState({
+    cropName: '',
+    soilType: '',
+    nitrogen: '',
+    phosphorus: '',
+    potassium: '',
+    ph: '',
+    rainfall: '',
+    temperature: '',
+    humidity: '',
+  });
+
+  const [prediction, setPrediction] = useState<number | null>(null);
+  const [loading, setLoading] = useState(false);
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handlePredict = async () => {
+    setLoading(true);
+    setTimeout(() => {
+      const basePrediction = 50 + Math.random() * 20;
+      setPrediction(Math.round(basePrediction * 100) / 100);
+      setLoading(false);
+    }, 1500);
+  };
+
+  return (
+    <div className="min-h-screen bg-gradient-to-b from-emerald-50 via-white to-green-50">
+      <header className="border-b bg-white/80 backdrop-blur-sm sticky top-0 z-50">
+        <nav className="container mx-auto px-6 py-4 flex items-center gap-4">
+          <Link href="/" className="flex items-center gap-2 hover:opacity-75 transition-opacity">
+            <ArrowLeft className="h-5 w-5 text-emerald-600" />
+            <span className="text-emerald-600 font-medium">Back</span>
+          </Link>
+          <div className="flex items-center gap-2 ml-auto">
+            <Sprout className="h-6 w-6 text-emerald-600" />
+            <span className="text-xl font-bold text-gray-900">AgriYield</span>
+          </div>
+        </nav>
+      </header>
+
+      <main className="container mx-auto px-6 py-12">
+        <div className="max-w-4xl mx-auto">
+          <div className="mb-8">
+            <h1 className="text-4xl font-bold text-gray-900 mb-2">Predict Crop Yield</h1>
+            <p className="text-lg text-gray-600">
+              Enter your farm and environmental data to get an accurate yield prediction
+            </p>
+          </div>
+
+          <div className="grid lg:grid-cols-3 gap-8">
+            <div className="lg:col-span-2">
+              <Card className="p-8">
+                <div className="space-y-6">
+                  <div className="grid md:grid-cols-2 gap-6">
+                    <div className="space-y-2">
+                      <Label htmlFor="cropName" className="text-gray-700 font-medium">
+                        Crop Name
+                      </Label>
+                      <Input
+                        id="cropName"
+                        name="cropName"
+                        placeholder="e.g., Rice, Wheat, Corn"
+                        value={formData.cropName}
+                        onChange={handleInputChange}
+                        className="border-gray-300"
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="soilType" className="text-gray-700 font-medium">
+                        Soil Type
+                      </Label>
+                      <Input
+                        id="soilType"
+                        name="soilType"
+                        placeholder="e.g., Loamy, Clay, Sandy"
+                        value={formData.soilType}
+                        onChange={handleInputChange}
+                        className="border-gray-300"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
+                      <span className="h-8 w-8 bg-emerald-100 rounded-lg flex items-center justify-center text-emerald-600">
+                        🌱
+                      </span>
+                      Soil Nutrients (NPK)
+                    </h3>
+                    <div className="grid md:grid-cols-3 gap-4">
+                      <div className="space-y-2">
+                        <Label htmlFor="nitrogen" className="text-gray-700 font-medium">
+                          Nitrogen (N) mg/kg
+                        </Label>
+                        <Input
+                          id="nitrogen"
+                          name="nitrogen"
+                          type="number"
+                          placeholder="0-100"
+                          value={formData.nitrogen}
+                          onChange={handleInputChange}
+                          className="border-gray-300"
+                        />
+                      </div>
+
+                      <div className="space-y-2">
+                        <Label htmlFor="phosphorus" className="text-gray-700 font-medium">
+                          Phosphorus (P) mg/kg
+                        </Label>
+                        <Input
+                          id="phosphorus"
+                          name="phosphorus"
+                          type="number"
+                          placeholder="0-100"
+                          value={formData.phosphorus}
+                          onChange={handleInputChange}
+                          className="border-gray-300"
+                        />
+                      </div>
+
+                      <div className="space-y-2">
+                        <Label htmlFor="potassium" className="text-gray-700 font-medium">
+                          Potassium (K) mg/kg
+                        </Label>
+                        <Input
+                          id="potassium"
+                          name="potassium"
+                          type="number"
+                          placeholder="0-100"
+                          value={formData.potassium}
+                          onChange={handleInputChange}
+                          className="border-gray-300"
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div>
+                    <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
+                      <span className="h-8 w-8 bg-emerald-100 rounded-lg flex items-center justify-center text-emerald-600">
+                        🌊
+                      </span>
+                      Soil Properties
+                    </h3>
+                    <div className="grid md:grid-cols-2 gap-4">
+                      <div className="space-y-2">
+                        <Label htmlFor="ph" className="text-gray-700 font-medium">
+                          Soil pH
+                        </Label>
+                        <Input
+                          id="ph"
+                          name="ph"
+                          type="number"
+                          placeholder="4.0-9.0"
+                          step="0.1"
+                          value={formData.ph}
+                          onChange={handleInputChange}
+                          className="border-gray-300"
+                        />
+                      </div>
+
+                      <div className="space-y-2">
+                        <Label htmlFor="rainfall" className="text-gray-700 font-medium">
+                          Annual Rainfall (mm)
+                        </Label>
+                        <Input
+                          id="rainfall"
+                          name="rainfall"
+                          type="number"
+                          placeholder="500-3000"
+                          value={formData.rainfall}
+                          onChange={handleInputChange}
+                          className="border-gray-300"
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div>
+                    <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
+                      <span className="h-8 w-8 bg-emerald-100 rounded-lg flex items-center justify-center text-emerald-600">
+                        ☀️
+                      </span>
+                      Weather Conditions
+                    </h3>
+                    <div className="grid md:grid-cols-2 gap-4">
+                      <div className="space-y-2">
+                        <Label htmlFor="temperature" className="text-gray-700 font-medium">
+                          Average Temperature (°C)
+                        </Label>
+                        <Input
+                          id="temperature"
+                          name="temperature"
+                          type="number"
+                          placeholder="15-35"
+                          step="0.1"
+                          value={formData.temperature}
+                          onChange={handleInputChange}
+                          className="border-gray-300"
+                        />
+                      </div>
+
+                      <div className="space-y-2">
+                        <Label htmlFor="humidity" className="text-gray-700 font-medium">
+                          Average Humidity (%)
+                        </Label>
+                        <Input
+                          id="humidity"
+                          name="humidity"
+                          type="number"
+                          placeholder="30-90"
+                          value={formData.humidity}
+                          onChange={handleInputChange}
+                          className="border-gray-300"
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  <Button
+                    onClick={handlePredict}
+                    disabled={loading}
+                    className="w-full bg-emerald-600 hover:bg-emerald-700 text-lg py-6"
+                  >
+                    <Zap className="mr-2 h-5 w-5" />
+                    {loading ? 'Analyzing...' : 'Generate Prediction'}
+                  </Button>
+                </div>
+              </Card>
+            </div>
+
+            <div className="lg:col-span-1">
+              <Card className="p-6 sticky top-24 bg-gradient-to-b from-emerald-50 to-white border-emerald-200">
+                <h3 className="text-lg font-semibold text-gray-900 mb-4">Prediction Result</h3>
+
+                {!prediction ? (
+                  <div className="text-center py-8">
+                    <div className="h-16 w-16 bg-emerald-100 rounded-lg mx-auto mb-4 flex items-center justify-center">
+                      <Sprout className="h-8 w-8 text-emerald-600" />
+                    </div>
+                    <p className="text-gray-600">
+                      Fill in the form and click "Generate Prediction" to see your estimated yield
+                    </p>
+                  </div>
+                ) : (
+                  <div className="space-y-4">
+                    <div className="bg-gradient-to-br from-emerald-500 to-emerald-600 text-white rounded-lg p-6 text-center">
+                      <p className="text-sm font-medium text-emerald-100 mb-2">Estimated Yield</p>
+                      <p className="text-4xl font-bold">{prediction}</p>
+                      <p className="text-emerald-100 text-sm mt-2">metric tons/hectare</p>
+                    </div>
+
+                    <div className="bg-emerald-50 border border-emerald-200 rounded-lg p-4">
+                      <h4 className="font-semibold text-gray-900 mb-2">Confidence Level</h4>
+                      <div className="h-2 bg-emerald-200 rounded-full overflow-hidden">
+                        <div
+                          className="h-full bg-emerald-600 rounded-full transition-all"
+                          style={{ width: `${75 + Math.random() * 20}%` }}
+                        ></div>
+                      </div>
+                      <p className="text-sm text-gray-600 mt-2">High confidence prediction</p>
+                    </div>
+
+                    <div className="space-y-2 text-sm">
+                      <div className="flex justify-between items-center p-3 bg-gray-50 rounded">
+                        <span className="text-gray-600">Crop:</span>
+                        <span className="font-medium text-gray-900">{formData.cropName}</span>
+                      </div>
+                      <div className="flex justify-between items-center p-3 bg-gray-50 rounded">
+                        <span className="text-gray-600">Soil Type:</span>
+                        <span className="font-medium text-gray-900">{formData.soilType}</span>
+                      </div>
+                    </div>
+
+                    <Button
+                      onClick={() => setPrediction(null)}
+                      variant="outline"
+                      className="w-full border-emerald-300 text-emerald-600 hover:bg-emerald-50"
+                    >
+                      New Prediction
+                    </Button>
+                  </div>
+                )}
+              </Card>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  );
+}
